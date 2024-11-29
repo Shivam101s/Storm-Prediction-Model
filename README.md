@@ -15,3 +15,5 @@ Their predictions on training data are used as input features for the meta-model
 
 Inference Pipeline:
 For new data, predictions from feature models are combined into the meta-model for final classification.
+
+In "prediction_using_simple_neural_networks.py" file, we have used one artificial neural network that takes all the features and predict the storm intensity.
