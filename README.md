@@ -1,5 +1,5 @@
 # Storm-Prediction-Model
-Key Steps in the Code:
+Key Steps in the "Prediction using random forest" Code:
 Feature Models:
 
 Three separate RandomForestClassifier models for wind speed, precipitation, and humidity.
