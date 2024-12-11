@@ -15,6 +15,8 @@ if not os.path.exists('plots2'):
 
 # Step 1: Load and preprocess the dataset
 df = pd.read_csv('processed_my.csv')
+df = df.rename(columns={"Min_Pressure": "Max_Sustained_Wind"})
+
 
 # Preprocessing the dataset
 def process_latitude(lat):
@@ -29,7 +31,7 @@ df['Longitude_EW'] = df['Longitude_EW'].apply(process_longitude)
 df['Storm_Intensity'] = df['Storm_Intensity'].astype('category')
 
 # Step 2: Define features and target variable
-X = df[['Latitude_NS', 'Longitude_EW', 'Min_Pressure']]
+X = df[['Latitude_NS', 'Longitude_EW', 'Max_Sustained_Wind']]
 y = df['Storm_Intensity']
 y = y.cat.codes
 
