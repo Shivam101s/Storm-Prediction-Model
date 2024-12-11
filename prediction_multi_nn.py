@@ -18,6 +18,8 @@ if not os.path.exists('multi_nn_plots'):
 
 # Step 1: Load and preprocess the dataset
 df = pd.read_csv('processed_my.csv')
+df = df.rename(columns={"Min_Pressure": "Max_Sustained_Wind"})
+
 
 # Preprocessing the dataset
 def process_latitude(lat):
@@ -35,7 +37,7 @@ label_encoder = LabelEncoder()
 df['Storm_Intensity'] = label_encoder.fit_transform(df['Storm_Intensity'])
 
 # Features and Target
-X = df[['Latitude_NS', 'Longitude_EW', 'Min_Pressure']]
+X = df[['Latitude_NS', 'Longitude_EW', 'Max_Sustained_Wind']]
 y = df['Storm_Intensity']
 
 # Split data into training and testing sets
@@ -103,15 +105,24 @@ plt.savefig('multi_nn_plots/confusion_matrix_meta_model.png')
 plt.close()
 
 # Step 8: Predicted vs Actual Visualization
-plt.figure(figsize=(8, 5))
-plt.scatter(range(len(y_test)), y_test, label='Actual', alpha=0.7, color='blue')
-plt.scatter(range(len(meta_predictions)), meta_predictions, label='Predicted', alpha=0.7, color='red')
-plt.title("Actual vs Predicted Storm Intensity")
+plt.figure(figsize=(8, 6))
+
+# Scatter plot for Actual vs Predicted
+plt.scatter(y_test, meta_predictions, alpha=0.7, color='blue', label='Predicted', s=50)
+
+# Add a diagonal line to represent perfect predictions (y = x line)
+plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='red', linestyle='--', label='Perfect Prediction')
+
+# Add title and labels
+plt.title("Actual vs Predicted Storm Intensity", fontsize=14)
+plt.xlabel("Actual Storm Intensity (Encoded)", fontsize=12)
+plt.ylabel("Predicted Storm Intensity (Encoded)", fontsize=12)
 plt.legend()
-plt.xlabel("Sample Index")
-plt.ylabel("Storm Intensity (Encoded)")
-plt.savefig('multi_nn_plots/actual_vs_predicted_meta_model.png')
+
+# Save the plot
+plt.savefig('multi_nn_plots/actual_vs_predicted_meta_model_improved.png')
 plt.close()
+
 
 # Step 9: K-Means Clustering Visualization
 kmeans = KMeans(n_clusters=3, random_state=42)
