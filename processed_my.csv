@@ -1,4 +1,4 @@
-Storm_Intensity,Latitude_NS,Longitude_EW,Min_Pressure
+Storm_Intensity,Latitude_NS,Longitude_EW,Max_sustained_wind
  HU, 28.0N,  94.8W,80
  HU, 28.0N,  95.4W,80
  HU, 28.0N,  96.0W,80
