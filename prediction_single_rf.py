@@ -7,9 +7,11 @@ from sklearn.metrics import classification_report, accuracy_score
 # Load the processed dataset
 file_path = 'processed_my.csv'  # Replace with your actual file path
 df = pd.read_csv(file_path)
+df = df.rename(columns={"Min_Pressure": "Max_Sustained_Wind"})
+
 
 # Rename columns for clarity
-df.columns = ['Storm_Intensity', 'Latitude_NS', 'Longitude_EW', 'Min_Pressure']
+df.columns = ['Storm_Intensity', 'Latitude_NS', 'Longitude_EW', 'Max_Sustained_Wind']
 
 # Step 1: Data Preprocessing
 # Extract numeric values from Latitude and Longitude while encoding direction
@@ -30,10 +32,10 @@ df['Storm_Intensity'] = label_encoder_storm.fit_transform(df['Storm_Intensity'])
 df = df.dropna()
 
 # Step 2: Define Features and Target
-X = df[['Latitude_NS', 'Longitude_EW', 'Min_Pressure']]  # Predictors
+X = df[['Latitude_NS', 'Longitude_EW', 'Max_Sustained_Wind']]  # Predictors
 y = df['Storm_Intensity']  # Target
 
-# Standardize features (Latitude, Longitude, Min Pressure)
+# Standardize features (Latitude, Longitude, Max_Sustained_Wind)
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 
@@ -55,7 +57,7 @@ print(classification_report(y_test, y_pred, target_names=label_encoder_storm.cla
 
 # Step 6: Predict Storm Intensity for New Data
 # Example: Predict for a new sample
-new_sample = [[28.5, -95.0, 950]]  # Latitude = 28.5N, Longitude = 95.0W, Min Pressure = 950
+new_sample = [[28.5, -95.0, 950]]  # Latitude = 28.5N, Longitude = 95.0W, Max_Sustained_Wind = 950
 new_sample_scaled = scaler.transform(new_sample)
 predicted_class = model.predict(new_sample_scaled)
 predicted_label = label_encoder_storm.inverse_transform(predicted_class)
